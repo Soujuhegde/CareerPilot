@@ -1,0 +1,6 @@
+﻿
+C:\Users\Sadguru\OneDrive\Desktop\Mini-Project\src\app\ai-cover-letter\components\coverletter-preview.tsx
+  59:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 1 problem (0 errors, 1 warning)
+

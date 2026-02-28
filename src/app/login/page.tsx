@@ -9,9 +9,9 @@ export default function Login() {
                 <div className="space-y-4 mb-8">
                     <input type="email" placeholder="Email Address" className="w-full neo-border-thin p-4 font-bold bg-bg-cream" />
                     <input type="password" placeholder="Password" className="w-full neo-border-thin p-4 font-bold bg-bg-cream" />
-                    <button className="w-full px-8 py-4 bg-neo-pink text-black font-black uppercase tracking-widest neo-border neo-shadow-hover hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200">
+                    <Link href="/industry-insights" className="block w-full px-8 py-4 bg-neo-pink text-black font-black uppercase tracking-widest neo-border neo-shadow-hover hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200">
                         Log In
-                    </button>
+                    </Link>
                 </div>
                 <Link href="/" className="text-sm font-bold uppercase tracking-widest hover:text-neo-blue underline">
                     ← Back to Home

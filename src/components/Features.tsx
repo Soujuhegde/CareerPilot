@@ -3,12 +3,15 @@
 import { motion, Variants } from "framer-motion";
 import { FileText, PenTool, CheckCircle, Compass, Video, TrendingUp, BarChart, Briefcase } from "lucide-react";
 import React from "react";
+import Link from "next/link";
 
 interface FeatureProps {
     icon: React.ReactNode;
     title: string;
     description: string;
     colorBg: string;
+    buttonText: string;
+    href: string;
 }
 
 function FeatureCard({ feature, variants }: { feature: FeatureProps, variants: Variants }) {
@@ -20,11 +23,14 @@ function FeatureCard({ feature, variants }: { feature: FeatureProps, variants: V
             <div className={`w-14 h-14 neo-border flex items-center justify-center relative z-20 ${feature.colorBg} group-hover:-rotate-6 transition-transform duration-300`}>
                 {feature.icon}
             </div>
-            <div>
+            <div className="flex flex-col flex-grow">
                 <h3 className="text-lg font-black text-text-black uppercase tracking-widest mb-3 line-clamp-1">{feature.title}</h3>
-                <p className="text-sm text-text-black font-medium leading-relaxed">
+                <p className="text-sm text-text-black font-medium leading-relaxed mb-6">
                     {feature.description}
                 </p>
+                <Link href={feature.href} className="mt-auto self-start inline-flex items-center text-xs font-black uppercase tracking-widest text-text-black border-b-2 border-black pb-1 hover:text-neo-blue hover:border-neo-blue transition-colors group-hover:translate-x-1 duration-200">
+                    {feature.buttonText}
+                </Link>
             </div>
         </motion.div>
     );
@@ -34,51 +40,67 @@ export default function Features() {
     const features: FeatureProps[] = [
         {
             icon: <FileText className="w-6 h-6 text-black" />,
-            title: "AI Resume Optimize",
-            description: "Tailor your resume for any description to beat the ATS and get noticed instantly.",
-            colorBg: "bg-neo-yellow"
+            title: "AI-Powered Guidance",
+            description: "Discover career paths tailored to your skills with AI-driven insights.",
+            colorBg: "bg-neo-yellow",
+            buttonText: "Get Guidance →",
+            href: "/guidance"
         },
         {
             icon: <PenTool className="w-6 h-6 text-black" />,
-            title: "Cover Letters",
-            description: "Auto-generate personalized letters that perfectly match the company's tone.",
-            colorBg: "bg-neo-pink"
+            title: "Smart Resume & Letter",
+            description: "Create ATS-optimized resumes and cover letters effortlessly.",
+            colorBg: "bg-neo-pink",
+            buttonText: "Build Resume →",
+            href: "/resume"
         },
         {
             icon: <CheckCircle className="w-6 h-6 text-black" />,
-            title: "ATS Score Check",
-            description: "Instantly see how well your resume scores against specific job postings.",
-            colorBg: "bg-neo-blue text-white"
+            title: "Check Your ATS Score",
+            description: "Upload your resume and get instant feedback to improve your chances.",
+            colorBg: "bg-neo-blue text-white",
+            buttonText: "Check Score →",
+            href: "/ats-score"
         },
         {
             icon: <Compass className="w-6 h-6 text-black" />,
-            title: "Career Tracking",
-            description: "Get personalized career path suggestions based on your unique skill matrix.",
-            colorBg: "bg-neo-green"
+            title: "Get Course Recommendations",
+            description: "AI suggests the best courses to enhance your skills.",
+            colorBg: "bg-neo-green",
+            buttonText: "Find Courses →",
+            href: "/courses"
         },
         {
             icon: <Video className="w-6 h-6 text-black" />,
             title: "Mock Interviews",
-            description: "Practice with an AI interviewer and get real-time feedback on your answers.",
-            colorBg: "bg-neo-orange"
+            description: "Get AI-driven interview feedback to enhance your skills.",
+            colorBg: "bg-neo-orange",
+            buttonText: "Practice Now →",
+            href: "/interviews"
         },
         {
             icon: <TrendingUp className="w-6 h-6 text-black" />,
-            title: "Industry Trends",
-            description: "Stay way ahead of the curve with real-time insights into your industry metrics.",
-            colorBg: "bg-white"
+            title: "Know Industry Trends",
+            description: "Stay updated with salary insights and the latest job trends.",
+            colorBg: "bg-white",
+            buttonText: "Explore Trends →",
+            href: "/trends"
         },
         {
             icon: <BarChart className="w-6 h-6 text-black" />,
-            title: "Skill Gap Analysis",
-            description: "Identify what high-value skills you're missing for your dream job trajectory.",
-            colorBg: "bg-neo-blue text-white"
+            title: "Get Job Matches",
+            description: "AI recommends the best job opportunities for you.",
+            colorBg: "bg-neo-blue text-white",
+            buttonText: "Find Jobs →",
+            href: "/jobs"
         },
         {
             icon: <Briefcase className="w-6 h-6 text-black" />,
-            title: "Recruiter Tools",
-            description: "Stand out to top tier recruiters with an optimized profile they can't ignore.",
-            colorBg: "bg-neo-yellow"
+            title: "Shortlist Top Talent",
+            description: "AI-powered tools for recruiters to filter resumes efficiently.",
+            colorBg: "bg-neo-yellow",
+            buttonText: "For Recruiters →",
+            href: "/recruiters"
         }
     ];
 

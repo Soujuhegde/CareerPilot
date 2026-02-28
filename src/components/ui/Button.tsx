@@ -6,7 +6,7 @@ import Link from "next/link";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     variant?: "primary" | "secondary" | "outline";
-    size?: "sm" | "md" | "lg";
+    size?: "sm" | "md" | "lg" | "icon";
     className?: string;
     href?: string;
 }
@@ -31,6 +31,7 @@ export function Button({
         sm: "px-5 py-2 text-xs",
         md: "px-8 py-3 text-sm",
         lg: "px-10 py-4 text-base",
+        icon: "h-10 w-10 p-2",
     };
 
     const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
