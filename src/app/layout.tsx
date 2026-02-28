@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased selection:bg-[#FFD400] selection:text-black relative`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
