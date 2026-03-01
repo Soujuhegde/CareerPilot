@@ -84,7 +84,7 @@ export default function Features() {
             description: "Stay updated with salary insights and the latest job trends.",
             colorBg: "bg-white",
             buttonText: "Explore Trends →",
-            href: "/trends"
+            href: "/industry-insights"
         },
         {
             icon: <BarChart className="w-6 h-6 text-black" />,
