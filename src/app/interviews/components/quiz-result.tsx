@@ -19,7 +19,7 @@ interface Question {
 interface QuizResultData {
     quizScore: number;
     improvementTip?: string;
-    questions: Question[];
+    questions?: Question[];
 }
 
 /* ✅ Props type */
@@ -63,33 +63,35 @@ export default function QuizResult({
                 )}
 
                 {/* Questions Review */}
-                <div className="space-y-4">
-                    <h3 className="font-medium">Question Review</h3>
+                {result.questions && result.questions.length > 0 && (
+                    <div className="space-y-4">
+                        <h3 className="font-medium">Question Review</h3>
 
-                    {result.questions.map((q, index) => (
-                        <div key={index} className="border rounded-lg p-4 space-y-2">
-                            <div className="flex items-start justify-between gap-2">
-                                <p className="font-medium">{q.question}</p>
+                        {result.questions.map((q, index) => (
+                            <div key={index} className="border rounded-lg p-4 space-y-2">
+                                <div className="flex items-start justify-between gap-2">
+                                    <p className="font-medium">{q.question}</p>
 
-                                {q.isCorrect ? (
-                                    <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                                ) : (
-                                    <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-                                )}
+                                    {q.isCorrect ? (
+                                        <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                    ) : (
+                                        <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+                                    )}
+                                </div>
+
+                                <div className="text-sm text-muted-foreground">
+                                    <p>Your answer: {q.userAnswer}</p>
+                                    {!q.isCorrect && <p>Correct answer: {q.answer}</p>}
+                                </div>
+
+                                <div className="text-sm bg-muted p-2 rounded">
+                                    <p className="font-medium">Explanation:</p>
+                                    <p>{q.explanation}</p>
+                                </div>
                             </div>
-
-                            <div className="text-sm text-muted-foreground">
-                                <p>Your answer: {q.userAnswer}</p>
-                                {!q.isCorrect && <p>Correct answer: {q.answer}</p>}
-                            </div>
-
-                            <div className="text-sm bg-muted p-2 rounded">
-                                <p className="font-medium">Explanation:</p>
-                                <p>{q.explanation}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </CardContent>
 
             {!hideStartNew && (

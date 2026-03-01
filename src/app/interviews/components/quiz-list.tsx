@@ -26,6 +26,13 @@ interface Assessment {
     createdAt: string | Date;
     quizScore: number;
     improvementTip?: string;
+    questions?: {
+        question: string;
+        userAnswer: string;
+        answer: string;
+        explanation: string;
+        isCorrect: boolean;
+    }[];
 }
 
 /* ✅ Props type */
