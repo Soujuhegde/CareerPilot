@@ -64,7 +64,7 @@ export default function CoverLetterGenerator() {
         fn: generateLetterFn,
         data: generatedLetter,
         error,
-    } = useFetch<GeneratedLetter, CoverLetterFormValues>(
+    } = useFetch<GeneratedLetter, [CoverLetterFormValues]>(
         generateCoverLetter
     );
 

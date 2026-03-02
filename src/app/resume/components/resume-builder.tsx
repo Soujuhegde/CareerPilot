@@ -20,21 +20,22 @@ import { toast } from "sonner";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/Button";
 import { EntryForm, EntryParams } from "./entry-form";
+import { improveWithAI, saveResume } from "@/actions/resume";
 import { z } from "zod";
 
 // --- MOCKS & UTILS START ---
 const resumeSchema = z.object({
     contactInfo: z.object({
-        email: z.string().email("Invalid email").optional().or(z.literal("")),
-        mobile: z.string().optional(),
-        linkedin: z.string().url("Invalid URL").optional().or(z.literal("")),
-        twitter: z.string().url("Invalid URL").optional().or(z.literal("")),
-    }),
-    summary: z.string().optional(),
-    skills: z.string().optional(),
-    experience: z.array(z.any()),
-    education: z.array(z.any()),
-    projects: z.array(z.any()),
+        email: z.any().optional(),
+        mobile: z.any().optional(),
+        linkedin: z.any().optional(),
+        twitter: z.any().optional(),
+    }).optional(),
+    summary: z.any().optional(),
+    skills: z.any().optional(),
+    experience: z.any().optional(),
+    education: z.any().optional(),
+    projects: z.any().optional(),
 });
 
 type ResumeFormValues = z.infer<typeof resumeSchema>;
@@ -54,9 +55,6 @@ const entriesToMarkdown = (entries: any[], title: string) => {
     return header + content;
 };
 
-const saveResume = async (content: string) => {
-    return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000));
-};
 // --- MOCKS & UTILS END ---
 
 interface ResumeBuilderProps {
@@ -92,6 +90,13 @@ export default function ResumeBuilder({
     });
 
     const formValues = watch();
+
+    // Debugging: Watch form errors
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            console.log("Current Form Errors:", errors);
+        }
+    }, [errors]);
 
     useEffect(() => {
         if (initialContent) setActiveTab("preview");
@@ -129,41 +134,72 @@ export default function ResumeBuilder({
             getContactMarkdown(),
             summary && `## Professional Summary\n\n${summary}`,
             skills && `## Skills\n\n${skills}`,
-            entriesToMarkdown(experience, "Work Experience"),
-            entriesToMarkdown(education, "Education"),
-            entriesToMarkdown(projects, "Projects"),
+            entriesToMarkdown(experience || [], "Work Experience"),
+            entriesToMarkdown(education || [], "Education"),
+            entriesToMarkdown(projects || [], "Projects"),
         ]
             .filter(Boolean)
             .join("\n\n");
     };
 
+    const handleImproveSummary = async () => {
+        const currentSummary = watch("summary");
+        if (!currentSummary) {
+            toast.error("Please enter some summary text first!");
+            return;
+        }
+
+        try {
+            setIsProcessing(true);
+            const improved = await improveWithAI(currentSummary, "summary");
+            setValue("summary", improved);
+            toast.success("Summary improved by AI!");
+        } catch (error: any) {
+            console.error("AI improvement error:", error);
+            toast.error(error.message || "Failed to improve summary");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
     const generatePDF = async () => {
         setIsGenerating(true);
         try {
+            // Create a dedicated off-screen container for high-quality rendering
             const element = document.getElementById("resume-pdf");
             if (!element) return;
 
             const opt = {
-                margin: [15, 15],
-                filename: "resume.pdf",
+                margin: [0, 0],
+                filename: `${userFullName.replace(/\s+/g, "_")}_Resume.pdf`,
                 image: { type: "jpeg", quality: 0.98 },
-                html2canvas: { scale: 2 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    backgroundColor: "#ffffff",
+                    windowWidth: 800 // Consistent width for rendering
+                },
                 jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
             };
 
             const html2pdf = (await import("html2pdf.js/dist/html2pdf.min.js")).default;
             await html2pdf().set(opt).from(element).save();
+            toast.success("Resume downloaded!");
         } catch (error) {
             console.error("PDF generation error:", error);
+            toast.error("Failed to generate PDF");
         } finally {
             setIsGenerating(false);
         }
     };
 
-    const onSubmit: SubmitHandler<ResumeFormValues> = async () => {
+    const onSubmit: SubmitHandler<ResumeFormValues> = async (data) => {
         try {
             setIsProcessing(true);
-            await saveResume(previewContent);
+            console.log("Form Data:", data);
+            const content = getCombinedContent();
+            await saveResume(content);
             toast.success("Resume saved successfully!");
         } catch (error) {
             console.error("Save error:", error);
@@ -184,6 +220,7 @@ export default function ResumeBuilder({
             <div className="bg-neo-pink p-4 flex flex-col sm:flex-row justify-between items-center neo-border-b gap-4">
                 <div className="flex bg-white neo-border-thin p-1 rounded-sm overflow-hidden">
                     <button
+                        type="button"
                         onClick={() => setActiveTab("edit")}
                         className={`px-4 py-2 font-black uppercase text-sm tracking-widest flex items-center gap-2 transition-colors ${activeTab === "edit" ? "bg-black text-white" : "text-black hover:bg-gray-100"
                             }`}
@@ -191,6 +228,7 @@ export default function ResumeBuilder({
                         <Edit size={16} /> Edit Form
                     </button>
                     <button
+                        type="button"
                         onClick={() => setActiveTab("preview")}
                         className={`px-4 py-2 font-black uppercase text-sm tracking-widest flex items-center gap-2 transition-colors ${activeTab === "preview" ? "bg-black text-white" : "text-black hover:bg-gray-100"
                             }`}
@@ -199,11 +237,14 @@ export default function ResumeBuilder({
                     </button>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
-                    <Button variant="secondary" size="md" onClick={generatePDF} disabled={isGenerating}>
+                    <Button type="button" variant="secondary" size="md" onClick={generatePDF} disabled={isGenerating}>
                         {isGenerating ? <Loader2 className="animate-spin w-4 h-4" /> : <Download className="w-4 h-4" />}
                         Download PDF
                     </Button>
-                    <Button onClick={handleSubmit(onSubmit)} disabled={isProcessing}>
+                    <Button onClick={handleSubmit(onSubmit, (errors) => {
+                        toast.error("Please fix the errors in your resume form.");
+                        console.error("RESOLVED VALIDATION ERRORS:", JSON.stringify(errors, null, 2));
+                    })} disabled={isProcessing}>
                         {isProcessing ? <Loader2 className="animate-spin w-4 h-4" /> : <Save className="w-4 h-4" />}
                         Save Resume
                     </Button>
@@ -212,6 +253,25 @@ export default function ResumeBuilder({
 
             {/* CONTENT AREA */}
             <div className="flex-1 p-6 md:p-10 bg-bg-cream">
+                {/* HIDDEN RENDERER FOR PDF GENERATION (Always in DOM) */}
+                <div
+                    id="resume-pdf"
+                    className="hidden-for-pdf bg-white p-8 max-w-4xl mx-auto"
+                    style={{
+                        position: 'fixed',
+                        left: '-9999px',
+                        top: '0',
+                        width: '210mm',
+                        backgroundColor: 'white',
+                        zIndex: -1,
+                        overflow: 'hidden'
+                    }}
+                >
+                    <div className="prose prose-black prose-h2:uppercase prose-h2:tracking-wider prose-h3:text-neo-pink w-full">
+                        <MDEditor.Markdown source={getCombinedContent()} style={{ background: 'white', color: 'black' }} />
+                    </div>
+                </div>
+
                 {activeTab === "edit" ? (
                     <form className="space-y-12">
 
@@ -263,8 +323,14 @@ export default function ResumeBuilder({
                                     placeholder="Write a brief professional summary..."
                                     {...register("summary")}
                                 />
-                                <Button type="button" variant="outline" size="sm">
-                                    <Sparkles className="w-4 h-4 text-neo-pink" />
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleImproveSummary}
+                                    disabled={isProcessing}
+                                >
+                                    {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-neo-pink" />}
                                     Improve with AI
                                 </Button>
                             </div>
@@ -292,7 +358,7 @@ export default function ResumeBuilder({
                             <div className="mt-6">
                                 <EntryForm
                                     type="Experience"
-                                    entries={formValues.experience}
+                                    entries={formValues.experience || []}
                                     onChange={createEntryHandler("experience")}
                                 />
                             </div>
@@ -306,7 +372,7 @@ export default function ResumeBuilder({
                             <div className="mt-6">
                                 <EntryForm
                                     type="Education"
-                                    entries={formValues.education}
+                                    entries={formValues.education || []}
                                     onChange={createEntryHandler("education")}
                                 />
                             </div>
@@ -320,7 +386,7 @@ export default function ResumeBuilder({
                             <div className="mt-6">
                                 <EntryForm
                                     type="Project"
-                                    entries={formValues.projects}
+                                    entries={formValues.projects || []}
                                     onChange={createEntryHandler("projects")}
                                 />
                             </div>
@@ -328,7 +394,7 @@ export default function ResumeBuilder({
 
                     </form>
                 ) : (
-                    <div id="resume-pdf" className="bg-white p-4 md:p-8 neo-border neo-shadow max-w-4xl mx-auto flex flex-col min-h-[600px]" data-color-mode="light">
+                    <div className="bg-white p-4 md:p-8 neo-border neo-shadow max-w-4xl mx-auto flex flex-col min-h-[600px]" data-color-mode="light">
                         {previewContent ? (
                             <div className="flex-1 w-full prose prose-black prose-h2:uppercase prose-h2:tracking-wider prose-h3:text-neo-pink">
                                 <MDEditor

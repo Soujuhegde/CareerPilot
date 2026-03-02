@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignUp } from "@clerk/nextjs";
+import { useSignUp, useSignIn } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState } from "react";
 import { Eye, EyeOff, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
@@ -35,6 +35,7 @@ function PasswordStrengthIndicator({ password }: { password: string }) {
 
 export default function SignUpPage() {
     const { isLoaded, signUp } = useSignUp();
+    const { signIn } = useSignIn();
     const router = useRouter();
 
     const [firstName, setFirstName] = useState("");
@@ -97,10 +98,10 @@ export default function SignUpPage() {
                     <button
                         type="button"
                         onClick={() =>
-                            signUp?.authenticateWithRedirect({
+                            signIn?.authenticateWithRedirect({
                                 strategy: "oauth_google",
                                 redirectUrl: "/sso-callback",
-                                redirectUrlComplete: "/onboarding",
+                                redirectUrlComplete: "/industry-insights",
                             })
                         }
                         className="w-full px-6 py-3.5 sm:py-4 bg-white text-black font-black uppercase tracking-widest neo-border neo-shadow-hover hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200 flex items-center justify-center gap-4 text-sm sm:text-base"

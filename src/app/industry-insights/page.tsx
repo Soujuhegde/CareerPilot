@@ -20,7 +20,7 @@ export default function IndustryInsights() {
                     {/* Decorative element */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-neo-pink/10 -rotate-45 translate-x-16 -translate-y-16"></div>
 
-                    <form className="space-y-8 relative z-10" action="/trends">
+                    <form className="space-y-8 relative z-10" action="/trends" method="GET">
                         {/* Industry */}
                         <div className="space-y-3">
                             <label className="font-black text-sm uppercase tracking-widest block">
@@ -28,6 +28,7 @@ export default function IndustryInsights() {
                             </label>
                             <div className="relative">
                                 <select
+                                    name="industry"
                                     className="w-full p-4 neo-border-thin bg-bg-cream font-bold text-black appearance-none cursor-pointer hover:bg-white transition-colors"
                                     defaultValue=""
                                     required
@@ -56,6 +57,7 @@ export default function IndustryInsights() {
                                 Years of Experience
                             </label>
                             <input
+                                name="experience"
                                 type="number"
                                 min="0"
                                 max="50"
@@ -71,6 +73,7 @@ export default function IndustryInsights() {
                                 Skills
                             </label>
                             <input
+                                name="skills"
                                 type="text"
                                 placeholder="e.g., Python, JavaScript, Project Management"
                                 className="w-full p-4 neo-border-thin bg-bg-cream font-bold text-black placeholder:text-gray-400 focus:bg-white transition-colors"
@@ -85,6 +88,7 @@ export default function IndustryInsights() {
                                 Professional Bio
                             </label>
                             <textarea
+                                name="bio"
                                 placeholder="Tell us about your professional background..."
                                 className="w-full p-4 neo-border-thin bg-bg-cream font-medium text-black placeholder:text-gray-400 h-40 resize-y focus:bg-white transition-colors"
                                 required

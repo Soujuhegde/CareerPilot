@@ -57,7 +57,7 @@ export default function QuizList({ assessments }: QuizListProps) {
                                 Review your past quiz performance
                             </CardDescription>
                         </div>
-                        <Button onClick={() => router.push("/interview/mock")}>
+                        <Button onClick={() => router.push("/interviews/mock")}>
                             {BUTTONS_MENUS.QUIZ}
                         </Button>
                     </div>
@@ -115,7 +115,7 @@ export default function QuizList({ assessments }: QuizListProps) {
                         <QuizResult
                             result={selectedQuiz}
                             hideStartNew
-                            onStartNew={() => router.push("/interview/mock")}
+                            onStartNew={() => router.push("/interviews/mock")}
                         />
                     )}
                 </DialogContent>

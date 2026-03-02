@@ -1,8 +1,6 @@
 "use server";
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+import { callGemini } from "@/lib/gemini";
 
 interface QuizQuestion {
     question: string;
@@ -26,11 +24,17 @@ interface QuizResultData {
 /**
  * Generates 10 quiz questions using the Gemini API.
  */
-export async function generateQuiz(): Promise<QuizQuestion[]> {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+export async function generateQuiz(
+    industry?: string,
+    skills?: string[]
+): Promise<QuizQuestion[]> {
+    const personalityContext = (industry || skills?.length)
+        ? `targeting the ${industry || "general"} industry and focusing on skills like ${skills?.join(", ") || "professional communication"}`
+        : "on career and professional skills";
 
-    const prompt = `Generate a quiz with exactly 10 career and professional skills questions. 
-Each question should test knowledge on topics like job interviews, resume writing, workplace communication, leadership, productivity, or industry trends.
+    const prompt = `Generate a quiz with exactly 10 high-quality questions ${personalityContext}. 
+Each question should be practical and scenarios-based. 
+Ensure these questions are completely NEW and DIFFERENT from any standard list—vary the topics across technical knowledge, situational judgment, and soft skills relevant to this context.
 
 Return a valid JSON array (no markdown, no code blocks) in this exact format:
 [
@@ -44,19 +48,12 @@ Return a valid JSON array (no markdown, no code blocks) in this exact format:
 
 Rules:
 - Exactly 10 questions
-- Each question has exactly 4 options
-- correctAnswer must exactly match one of the options
-- Keep questions clear and professional`;
+- Exactly 4 options per question
+- correctAnswer MUST exactly match one of the options
+- Do not repeat questions from previous calls
+- Output ONLY the JSON array`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
-
-    // Strip markdown code fences if present
-    const cleaned = text
-        .replace(/^```json\s*/i, "")
-        .replace(/^```\s*/i, "")
-        .replace(/\s*```$/, "")
-        .trim();
+    const cleaned = await callGemini(prompt);
 
     let questions: QuizQuestion[];
     try {
@@ -96,18 +93,17 @@ export async function saveQuizResult(
     let improvementTip: string | undefined;
 
     if (wrongQuestions.length > 0) {
-        try {
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-            const tipPrompt = `A candidate answered these quiz questions incorrectly:\n${wrongQuestions
-                .slice(0, 3)
-                .map((q, i) => `${i + 1}. ${q}`)
-                .join(
-                    "\n"
-                )}\n\nGive a short, encouraging improvement tip (2-3 sentences max) focused on what they should study or practice. Be direct and actionable.`;
+        const tipPrompt = `A candidate answered these quiz questions incorrectly:\n${wrongQuestions
+            .slice(0, 3)
+            .map((q, i) => `${i + 1}. ${q}`)
+            .join(
+                "\n"
+            )}\n\nGive a short, encouraging improvement tip (2-3 sentences max) focused on what they should study or practice. Be direct and actionable.`;
 
-            const result = await model.generateContent(tipPrompt);
-            improvementTip = result.response.text().trim();
-        } catch {
+        try {
+            improvementTip = await callGemini(tipPrompt);
+        } catch (err: any) {
+            console.error("Gemini Tip Generation Error:", err);
             improvementTip = "Review the topics you found challenging and practice more sample questions!";
         }
     }

@@ -1,14 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/Button";
+import { useUser, UserButton } from "@clerk/nextjs";
 import { LayoutGrid, Sparkles, ChevronDown, User } from "lucide-react";
 
 export default function Navbar() {
     const pathname = usePathname();
-    // Simulate auth state: consider user logged out on public landing/auth pages
-    const isLoggedIn = !["/", "/login", "/signup"].includes(pathname);
+    const { user, isLoaded } = useUser();
+    const isLoggedIn = isLoaded && !!user;
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const growthTools = [
+        { name: "Career Roadmap", href: "/industry-insights", icon: Sparkles },
+        { name: "AI Cover Letter", href: "/ai-cover-letter", icon: Sparkles },
+        { name: "Mock Interviews", href: "/interviews", icon: Sparkles },
+        { name: "ATS Resume Scorer", href: "/ats-score", icon: Sparkles },
+    ];
 
     return (
         <nav className="fixed top-0 w-full z-50 neo-border-thin border-t-0 border-l-0 border-r-0 bg-bg-cream transition-colors duration-300">
@@ -35,15 +45,36 @@ export default function Navbar() {
                                 Industry Insights
                             </Link>
 
-                            <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white text-black text-xs md:text-sm font-bold uppercase tracking-widest neo-border neo-shadow-hover hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200">
-                                <Sparkles className="w-4 h-4 text-neo-pink" />
-                                Growth Tools
-                                <ChevronDown className="w-4 h-4" />
-                            </button>
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white text-black text-xs md:text-sm font-bold uppercase tracking-widest neo-border neo-shadow-hover hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200"
+                                >
+                                    <Sparkles className="w-4 h-4 text-neo-pink" />
+                                    Growth Tools
+                                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                </button>
 
-                            <button className="w-10 h-10 rounded-full bg-neo-blue neo-border flex items-center justify-center text-white overflow-hidden neo-shadow-sm hover:scale-105 transition-transform">
-                                <User className="w-5 h-5 text-white" />
-                            </button>
+                                {isDropdownOpen && (
+                                    <div className="absolute top-full right-0 mt-2 w-56 bg-white neo-border neo-shadow p-2 space-y-1 z-[100] animate-in fade-in slide-in-from-top-2 duration-200">
+                                        {growthTools.map((tool) => (
+                                            <Link
+                                                key={tool.href}
+                                                href={tool.href}
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-3 py-2 text-xs font-bold uppercase tracking-wider hover:bg-neo-blue hover:text-white transition-colors rounded"
+                                            >
+                                                <tool.icon className="w-4 h-4" />
+                                                {tool.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="w-10 h-10 flex items-center justify-center">
+                                <UserButton afterSignOutUrl="/" />
+                            </div>
                         </>
                     ) : (
                         <>

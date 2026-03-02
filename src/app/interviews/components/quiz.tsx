@@ -39,7 +39,13 @@ interface QuizResultData {
     }[];
 }
 
+import { useSearchParams } from "next/navigation";
+
 export default function Quiz() {
+    const searchParams = useSearchParams();
+    const industry = searchParams.get("industry") || undefined;
+    const skills = searchParams.get("skills")?.split(",").map(s => s.trim()).filter(Boolean);
+
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [answers, setAnswers] = useState<(string | null)[]>([]);
     const [showExplanation, setShowExplanation] = useState<boolean>(false);
@@ -49,6 +55,10 @@ export default function Quiz() {
         fn: generateQuizFn,
         data: quizData,
     } = useFetch<QuizQuestion[]>(generateQuiz);
+
+    const handleStartQuiz = () => {
+        generateQuizFn(industry, skills);
+    };
 
     const {
         loading: savingResult,
@@ -114,12 +124,21 @@ export default function Quiz() {
         setCurrentQuestion(0);
         setAnswers([]);
         setShowExplanation(false);
-        generateQuizFn();
+        generateQuizFn(industry, skills);
         setResultData(null);
     };
 
     if (generatingQuiz) {
-        return <BarLoader className="mt-4" width={"100%"} color="gray" />;
+        return (
+            <Card className="mx-2">
+                <CardContent className="py-10 flex flex-col items-center justify-center space-y-4">
+                    <BarLoader width={"100%"} color="#3E54FF" />
+                    <p className="text-sm font-bold uppercase tracking-widest animate-pulse">
+                        Crafting your personalized quiz...
+                    </p>
+                </CardContent>
+            </Card>
+        );
     }
 
     if (resultData) {
@@ -132,18 +151,27 @@ export default function Quiz() {
 
     if (!quizData) {
         return (
-            <Card className="mx-2">
+            <Card className="mx-2 bg-white neo-border neo-shadow">
                 <CardHeader>
-                    <CardTitle>Ready to test your knowledge?</CardTitle>
+                    <CardTitle className="text-3xl font-black uppercase tracking-tighter">
+                        Ready to test your knowledge?
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">
-                        This quiz contains 10 questions specific to your industry and
-                        skills. Take your time and choose the best answer for each question.
+                    <p className="text-gray-600 font-medium">
+                        {industry
+                            ? `This quiz is custom-built for the ${industry} industry with emphasis on ${skills?.join(", ") || "core professional skills"}.`
+                            : "Take a general professional skills quiz to sharpen your interview readiness."}
+                    </p>
+                    <p className="text-xs font-bold text-neo-blue uppercase mt-4 tracking-widest">
+                        10 Questions • Tailored to you • Instant feedback
                     </p>
                 </CardContent>
                 <CardFooter>
-                    <Button onClick={generateQuizFn} className="w-full">
+                    <Button
+                        onClick={handleStartQuiz}
+                        className="w-full h-14 bg-neo-yellow text-black hover:bg-yellow-400 neo-border neo-shadow-hover text-sm font-black uppercase tracking-widest transition-all"
+                    >
                         {BUTTONS_MENUS.START_QUIZ}
                     </Button>
                 </CardFooter>

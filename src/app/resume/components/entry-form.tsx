@@ -39,12 +39,7 @@ export interface EntryFormProps {
 /* Mock AI Function */
 /* ---------------------------------- */
 
-const improveWithAI = async (data: {
-    current: string;
-    type: string;
-}): Promise<string> => {
-    return `Improved description using AI: ${data.current}`;
-};
+import { improveWithAI } from "@/actions/resume";
 
 /* ---------------------------------- */
 /* Generic useFetch Hook */
@@ -153,8 +148,8 @@ export function EntryForm({
         fn: improveWithAIFn,
         data: improvedContent,
         error: improveError,
-    } = useFetch<string, { current: string; type: string }>(
-        improveWithAI
+    } = useFetch<string, { content: string; type: any }>(
+        async (params) => await improveWithAI(params.content, params.type)
     );
 
     useEffect(() => {
@@ -178,9 +173,15 @@ export function EntryForm({
             return;
         }
 
+        const aiType = type.toLowerCase() === "experience"
+            ? "experience"
+            : type.toLowerCase() === "education"
+                ? "experience" // Re-using experience logic for education
+                : "projects";
+
         await improveWithAIFn({
-            current: description,
-            type: type.toLowerCase(),
+            content: description,
+            type: aiType as any,
         });
     };
 

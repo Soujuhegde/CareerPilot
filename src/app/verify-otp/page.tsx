@@ -25,7 +25,7 @@ export default function VerifyOtpPage() {
 
             if (result.status === "complete") {
                 await setActive({ session: result.createdSessionId });
-                router.push("/onboarding");
+                router.push("/industry-insights");
             } else {
                 setError("Verification failed. Please try again.");
             }
