@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { generateQuiz, saveQuizResult } from "@/actions/interview";
 import QuizResult from "./quiz-result";
 import useFetch from "@/hooks/use-fetch";
+import { useQuizHistory } from "@/hooks/use-quiz-history";
 import { BarLoader } from "react-spinners";
 
 /* ✅ Quiz Question Type */
@@ -49,6 +50,7 @@ export default function Quiz() {
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [answers, setAnswers] = useState<(string | null)[]>([]);
     const [showExplanation, setShowExplanation] = useState<boolean>(false);
+    const { addAssessment } = useQuizHistory();
 
     const {
         loading: generatingQuiz,
@@ -109,7 +111,10 @@ export default function Quiz() {
         const score = calculateScore();
 
         try {
-            await saveQuizResultFn(quizData, answers, score);
+            const result = await saveQuizResultFn(quizData, answers, score);
+            if (result) {
+                addAssessment(result);
+            }
             toast.success("Quiz completed!");
         } catch (error: unknown) {
             if (error instanceof Error) {

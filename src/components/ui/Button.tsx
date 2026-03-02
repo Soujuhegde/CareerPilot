@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
-    variant?: "primary" | "secondary" | "outline";
+    variant?: "primary" | "secondary" | "outline" | "blue";
     size?: "sm" | "md" | "lg" | "icon";
     className?: string;
     href?: string;
@@ -25,6 +25,7 @@ export function Button({
         primary: "bg-neo-yellow text-text-black neo-border-thin neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none",
         secondary: "bg-white text-text-black neo-border-thin neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none",
         outline: "bg-transparent text-text-black neo-border-thin hover:bg-black hover:text-white",
+        blue: "bg-neo-blue text-white neo-border-thin neo-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none",
     };
 
     const sizes = {

@@ -1,26 +1,12 @@
+"use client";
+
 import StatsCards from "./components/stats-cards";
 import PerformanceChart from "./components/performance-chart";
 import QuizList from "./components/quiz-list";
+import { useQuizHistory } from "@/hooks/use-quiz-history";
 
-/* ✅ Shared types (ideally move to types/interview.ts) */
-interface Question {
-    question: string;
-    userAnswer: string;
-    answer: string;
-    explanation: string;
-    isCorrect: boolean;
-}
-
-interface Assessment {
-    id: string;
-    createdAt: string | Date;
-    quizScore: number;
-    improvementTip?: string;
-    questions: Question[];
-}
-
-export default async function InterviewPrepPage() {
-    const assessments: Assessment[] = [];
+export default function InterviewPrepPage() {
+    const { assessments } = useQuizHistory();
 
     return (
         <div>

@@ -74,7 +74,7 @@ export default function Hero() {
                             Start for free
                             <ArrowRight className="w-5 h-5 ml-2" />
                         </Button>
-                        <Button variant="secondary" size="lg" className="w-full sm:w-auto gap-2 px-8 bg-neo-blue text-white" href="/demo">
+                        <Button variant="blue" size="lg" className="w-full sm:w-auto gap-2 px-8" href="/demo">
                             <Play className="w-5 h-5 fill-current" /> Book Demo
                         </Button>
                     </motion.div>
