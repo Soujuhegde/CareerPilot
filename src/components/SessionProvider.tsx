@@ -1,11 +1,10 @@
 "use client";
 
-import { SessionProvider as NextAuthSessionProvider } from "next-auth/react";
-
+// This component is a passthrough. Clerk handles session management via ClerkProvider in layout.tsx.
 export default function SessionProvider({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    return <NextAuthSessionProvider>{children}</NextAuthSessionProvider>;
+    return <>{children}</>;
 }
