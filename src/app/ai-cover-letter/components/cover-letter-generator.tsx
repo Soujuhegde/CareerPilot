@@ -19,7 +19,7 @@ import {
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import useFetch from "@/hooks/use-fetch";
-import { generateCoverLetter } from "@/actions/cover-letter";
+import { generateCoverLetter, CoverLetterResult } from "@/actions/cover-letter";
 
 /* ---------------------------------- */
 /* Schema */
@@ -34,14 +34,6 @@ const schema = z.object({
 });
 
 type CoverLetterFormValues = z.infer<typeof schema>;
-
-/* ---------------------------------- */
-/* Expected API Return Type */
-/* ---------------------------------- */
-
-interface GeneratedLetter {
-    id: string;
-}
 
 /* ---------------------------------- */
 /* Component */
@@ -64,7 +56,7 @@ export default function CoverLetterGenerator() {
         fn: generateLetterFn,
         data: generatedLetter,
         error,
-    } = useFetch<GeneratedLetter, [CoverLetterFormValues]>(
+    } = useFetch<CoverLetterResult, [CoverLetterFormValues]>(
         generateCoverLetter
     );
 
@@ -93,7 +85,13 @@ export default function CoverLetterGenerator() {
     useEffect(() => {
         if (generatedLetter) {
             toast.success("Cover letter generated!");
-            router.push(`/ai-cover-letter/${generatedLetter.id}`);
+            // Encode the full letter data as URL params (no DB needed)
+            const params = new URLSearchParams({
+                jobTitle: generatedLetter.jobTitle,
+                companyName: generatedLetter.companyName,
+                content: generatedLetter.content,
+            });
+            router.push(`/ai-cover-letter/${generatedLetter.id}?${params.toString()}`);
             reset();
         }
 
@@ -103,6 +101,7 @@ export default function CoverLetterGenerator() {
             );
         }
     }, [generatedLetter, error, router, reset]);
+
 
     /* ---------------------------------- */
     /* UI */

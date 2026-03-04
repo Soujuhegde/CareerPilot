@@ -6,24 +6,24 @@ import { Star } from "lucide-react";
 export default function Testimonials() {
     const testimonials = [
         {
-            name: "Sarah Jenkins",
-            role: "Product Manager @ TechFlow",
-            image: "https://i.pravatar.cc/150?img=47",
-            content: "CareerPilot completely transformed my job search. The AI resume optimization helped me land interviews at three MAANG companies within two weeks.",
+            name: "Priya Sharma",
+            role: "Product Manager @ Infosys",
+            image: "/priya_sharma.png",
+            content: "CareerPilot completely changed my job search. The AI resume optimization helped me land interviews at top MNCs within two weeks. Highly recommended!",
             color: "bg-neo-pink"
         },
         {
-            name: "David Chen",
-            role: "Senior Frontend Engineer",
-            image: "https://i.pravatar.cc/150?img=11",
-            content: "The mock interview feature is a game-changer. Getting real-time feedback on my system design answers gave me the exact confidence I needed.",
+            name: "Arjun Mehta",
+            role: "Senior Frontend Engineer @ Wipro",
+            image: "/arjun_mehta.png",
+            content: "The mock interview feature is a game-changer. Practicing with AI-generated questions gave me the confidence I needed to crack my TCS and HCL interviews.",
             color: "bg-neo-yellow"
         },
         {
-            name: "Elena Rodriguez",
-            role: "UX Researcher",
-            image: "https://i.pravatar.cc/150?img=32",
-            content: "I've tried every resume builder out there, but this is the first one that actually feels intelligent. It rewrote my bullet points to highlight exact metrics.",
+            name: "Sneha Reddy",
+            role: "UX Designer @ TCS Digital",
+            image: "/sneha_reddy.png",
+            content: "I've tried many resume builders but CareerPilot is the first that truly feels intelligent. It rewrote my portfolio points to perfectly match job descriptions.",
             color: "bg-neo-blue text-white"
         }
     ];

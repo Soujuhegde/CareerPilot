@@ -29,12 +29,14 @@ export async function generateQuiz(
     skills?: string[]
 ): Promise<QuizQuestion[]> {
     const personalityContext = (industry || skills?.length)
-        ? `targeting the ${industry || "general"} industry and focusing on skills like ${skills?.join(", ") || "professional communication"}`
+        ? `targeting the ${industry || "general"} industry and focusing 
+        on skills like ${skills?.join(", ") || "professional communication"}`
         : "on career and professional skills";
 
     const prompt = `Generate a quiz with exactly 10 high-quality questions ${personalityContext}. 
 Each question should be practical and scenarios-based. 
-Ensure these questions are completely NEW and DIFFERENT from any standard list—vary the topics across technical knowledge, situational judgment, and soft skills relevant to this context.
+Ensure these questions are completely NEW and DIFFERENT from any
+ standard list—vary the topics across technical knowledge, situational judgment, and soft skills relevant to this context.
 
 Return a valid JSON array (no markdown, no code blocks) in this exact format:
 [
@@ -98,7 +100,8 @@ export async function saveQuizResult(
             .map((q, i) => `${i + 1}. ${q}`)
             .join(
                 "\n"
-            )}\n\nGive a short, encouraging improvement tip (2-3 sentences max) focused on what they should study or practice. Be direct and actionable.`;
+            )}\n\nGive a short, encouraging improvement tip (2-3 sentences max) focused on what
+             they should study or practice. Be direct and actionable.`;
 
         try {
             improvementTip = await callGemini(tipPrompt);

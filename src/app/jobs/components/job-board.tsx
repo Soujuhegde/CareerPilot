@@ -68,7 +68,8 @@ export default function JobBoard() {
                         </p>
                         <button
                             onClick={() => setResult(null)}
-                            className="mt-6 text-sm font-black uppercase border-b-2 border-white text-white hover:bg-white hover:text-black transition-all"
+                            className="mt-6 text-sm font-black uppercase 
+                            border-b-2 border-white text-white hover:bg-white hover:text-black transition-all"
                         >
                             New Search
                         </button>
@@ -78,21 +79,26 @@ export default function JobBoard() {
                 {/* Job Matches Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {result.matches.map((job, idx) => (
-                        <div key={idx} className="bg-white neo-border p-8 neo-shadow-sm hover:neo-shadow transition-all group relative overflow-hidden">
+                        <div key={idx} className="bg-white neo-border
+                         p-8 neo-shadow-sm hover:neo-shadow transition-all group relative overflow-hidden">
                             {/* Match Score Badge */}
-                            <div className="absolute top-0 right-0 bg-neo-green text-black font-black px-4 py-2 neo-border-thin transform translate-x-1 -translate-y-1">
+                            <div className="absolute top-0 right-0
+                             bg-neo-green text-black font-black px-4 py-2 neo-border-thin transform translate-x-1 -translate-y-1">
                                 {job.matchScore}% MATCH
                             </div>
 
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 bg-bg-cream neo-border-thin flex items-center justify-center">
+                                <div className="w-14 h-14 bg-bg-cream 
+                                neo-border-thin flex items-center justify-center">
                                     <Building className="w-8 h-8 text-neo-blue" />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-neo-blue transition-colors">
+                                    <h3 className="text-2xl font-black 
+                                    uppercase tracking-tight group-hover:text-neo-blue transition-colors">
                                         {job.title}
                                     </h3>
-                                    <p className="text-sm font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                                    <p className="text-sm font-black text-gray-500 uppercase tracking-widest
+                                     flex items-center gap-2">
                                         {job.company} <span className="w-1 h-1 bg-gray-300 rounded-full" /> {job.location}
                                     </p>
                                 </div>
@@ -114,7 +120,8 @@ export default function JobBoard() {
                             <div className="space-y-4">
                                 <div className="flex flex-wrap gap-2">
                                     {job.skills.map((skill, i) => (
-                                        <span key={i} className="px-3 py-1 bg-bg-cream neo-border-thin text-[10px] font-black uppercase">
+                                        <span key={i} className="px-3 py-1 bg-bg-cream neo-border-thin
+                                         text-[10px] font-black uppercase">
                                             {skill}
                                         </span>
                                     ))}
@@ -125,7 +132,9 @@ export default function JobBoard() {
                                         e.preventDefault();
                                         toast.info("Applied successfully! (Demo)");
                                     }}
-                                    className="w-full px-6 py-4 bg-black text-white font-black uppercase text-sm flex items-center justify-center gap-2 neo-border-thin hover:bg-neo-blue transition-all"
+                                    className="w-full px-6 py-4 bg-black text-white font-black 
+                                    uppercase text-sm flex items-center justify-center 
+                                    gap-2 neo-border-thin hover:bg-neo-blue transition-all"
                                 >
                                     Apply for Role <ArrowUpRight className="w-5 h-5" />
                                 </a>
@@ -141,7 +150,8 @@ export default function JobBoard() {
         <div className="w-full max-w-4xl">
             <div className="bg-white neo-border p-8 md:p-12 neo-shadow text-center">
                 <div className="mb-10 max-w-2xl mx-auto">
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-6 leading-none">
+                    <h2 className="text-4xl md:text-5xl font-black
+                     uppercase tracking-tighter mb-6 leading-none">
                         Ready to Find your <span className="bg-neo-blue text-white px-2">Perfect</span> Role?
                     </h2>
                     <p className="text-gray-600 font-bold text-lg">
@@ -196,7 +206,9 @@ export default function JobBoard() {
                         <TrendingUp className="w-6 h-6 text-neo-blue" />
                     </div>
                     <h4 className="font-black uppercase mb-2">AI Precision</h4>
-                    <p className="text-sm font-bold opacity-80">Highly accurate matching based on deep career data analysis.</p>
+                    <p className="text-sm font-bold opacity-80">Highly accurate matching based on deep career data analysis.
+                        
+                    </p>
                 </div>
                 <div className="bg-neo-green text-black neo-border p-6 neo-shadow-sm flex flex-col items-center text-center">
                     <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 neo-border-thin">
