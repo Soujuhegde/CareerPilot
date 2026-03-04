@@ -3,7 +3,7 @@ import { BarChart, Target } from "lucide-react";
 
 export default function Jobs() {
     return (
-        <div className="min-h-screen bg-bg-cream pt-32 pb-20 px-6">
+        <div className="min-h-screen bg-bg-cream pt-24 pb-20 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto flex flex-col items-center">
                 {/* Hero Header */}
                 <div className="text-center mb-16 space-y-4">
@@ -11,7 +11,7 @@ export default function Jobs() {
                     bg-neo-blue text-white neo-border-thin text-xs font-black uppercase tracking-widest mb-4">
                         <Target className="w-4 h-4" /> Professional Pairing Board
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-6">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-6">
                         AI Job <br />
                         <span className="text-neo-green">Matchmaking</span>
                     </h1>

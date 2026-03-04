@@ -167,7 +167,7 @@ function TrendsContent() {
     const matchingSkills = data.skills.filter(s => userSkills.includes(s.name.toLowerCase()));
 
     return (
-        <div className="min-h-screen bg-bg-cream p-6 md:p-12 mb-20">
+        <div className="min-h-screen bg-bg-cream p-4 sm:p-6 md:p-12 pt-24 mb-20">
             <div className="max-w-7xl mx-auto space-y-10">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -184,8 +184,8 @@ function TrendsContent() {
                                 {userBracket}
                             </span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black flex items-center gap-4">
-                            <TrendingUp className="w-10 h-10 text-neo-pink" />
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter text-black flex flex-wrap items-center gap-3">
+                            <TrendingUp className="w-8 h-8 text-neo-pink shrink-0" />
                             {data.name} <span className="text-neo-blue">Insights</span>
                         </h1>
                     </div>

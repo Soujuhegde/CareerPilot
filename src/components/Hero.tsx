@@ -38,29 +38,29 @@ export default function Hero() {
     };
 
     return (
-        <section ref={containerRef} className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden min-h-screen flex items-center bg-bg-cream">
+        <section ref={containerRef} className="relative pt-20 pb-16 sm:pt-32 sm:pb-20 md:pt-48 md:pb-32 overflow-hidden min-h-screen flex items-center bg-bg-cream">
             {/* Background Grid Pattern */}
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #000 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
 
             {/* Parallax Floating Brutalist Blocks */}
-            <motion.div style={{ y: block1Y }} className="absolute top-[20%] left-[5%] w-24 h-24 bg-neo-yellow neo-border neo-shadow-lg -rotate-6 z-0" />
-            <motion.div style={{ y: block2Y }} className="absolute top-[60%] left-[2%] w-16 h-16 rounded-full bg-neo-pink neo-border neo-shadow-lg rotate-12 z-0" />
-            <motion.div style={{ y: block3Y }} className="absolute top-[25%] right-[8%] w-32 h-16 bg-neo-blue neo-border neo-shadow-lg rotate-6 z-0" />
-            <motion.div style={{ y: block4Y }} className="absolute bottom-[20%] right-[15%] w-20 h-20 rounded-full bg-neo-green neo-border neo-shadow-lg -rotate-12 z-0" />
+            <motion.div style={{ y: block1Y }} className="hidden sm:block absolute top-[20%] left-[5%] w-24 h-24 bg-neo-yellow neo-border neo-shadow-lg -rotate-6 z-0" />
+            <motion.div style={{ y: block2Y }} className="hidden sm:block absolute top-[60%] left-[2%] w-16 h-16 rounded-full bg-neo-pink neo-border neo-shadow-lg rotate-12 z-0" />
+            <motion.div style={{ y: block3Y }} className="hidden sm:block absolute top-[25%] right-[8%] w-32 h-16 bg-neo-blue neo-border neo-shadow-lg rotate-6 z-0" />
+            <motion.div style={{ y: block4Y }} className="hidden sm:block absolute bottom-[20%] right-[15%] w-20 h-20 rounded-full bg-neo-green neo-border neo-shadow-lg -rotate-12 z-0" />
 
-            <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10 w-full">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10 w-full">
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="text-center lg:text-left pt-10"
+                    className="text-center lg:text-left pt-4 sm:pt-10"
                 >
                     <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 bg-white neo-border neo-shadow-hover text-text-black text-xs font-black uppercase tracking-widest mb-6">
                         <span className="w-2 h-2 rounded-full bg-neo-pink animate-pulse" />
                         Product Hunt #1 AI Tool
                     </motion.div>
 
-                    <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-8 leading-tight text-text-black uppercase">
+                    <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-6 sm:mb-8 leading-tight text-text-black uppercase">
                         Land your <span className="bg-neo-yellow px-4 py-1 inline-block -rotate-2 mx-1 neo-border">dream job</span><br />
                         faster.
                     </motion.h1>

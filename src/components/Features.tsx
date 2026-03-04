@@ -18,7 +18,7 @@ function FeatureCard({ feature, variants }: { feature: FeatureProps, variants: V
     return (
         <motion.div
             variants={variants}
-            className="group relative h-full bg-white neo-border neo-shadow-hover p-8 flex flex-col gap-6 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200"
+            className="group relative h-full bg-white neo-border neo-shadow-hover p-5 sm:p-8 flex flex-col gap-4 sm:gap-6 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200"
         >
             <div className={`w-14 h-14 neo-border flex items-center justify-center relative z-20 ${feature.colorBg} group-hover:-rotate-6 transition-transform duration-300`}>
                 {feature.icon}
@@ -118,8 +118,8 @@ export default function Features() {
     };
 
     return (
-        <section id="features" className="py-32 relative z-20 bg-bg-cream">
-            <div className="max-w-7xl mx-auto px-6">
+        <section id="features" className="py-20 sm:py-32 relative z-20 bg-bg-cream">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +144,7 @@ export default function Features() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-50px" }}
-                    className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8"
                 >
                     {features.map((feature, index) => (
                         <FeatureCard key={index} feature={feature} variants={cardVariants} />

@@ -156,7 +156,7 @@ function RoadmapContent() {
     return (
         <div className="min-h-screen bg-white font-sans text-slate-900 border-t-8 border-neo-blue">
             {/* Header Section */}
-            <header className="max-w-6xl mx-auto px-6 pt-12 pb-8 border-b border-slate-100">
+            <header className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-8 border-b border-slate-100">
                 <button
                     onClick={() => router.push(`/trends?industry=${industry}&experience=${experience}`)}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-neo-blue transition-colors mb-8 group"
@@ -165,7 +165,7 @@ function RoadmapContent() {
                     Back to Insights
                 </button>
 
-                <h1 className="text-5xl font-extrabold tracking-tight mb-2 text-slate-900">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-2 text-slate-900">
                     {industryName} Developer
                 </h1>
                 <p className="text-slate-500 font-medium text-lg mb-8">
@@ -214,7 +214,7 @@ function RoadmapContent() {
                 </div>
             </header>
 
-            <main className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row gap-16 relative">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 flex flex-col lg:flex-row gap-10 lg:gap-16 relative">
                 {/* Sidebar Left */}
                 <aside className="lg:w-72 hidden lg:block sticky top-8 h-fit space-y-10">
                     <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-4">

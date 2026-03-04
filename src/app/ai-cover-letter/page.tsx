@@ -10,7 +10,7 @@ export default async function AICoverLetterPage() {
     const coverLetters = await getCoverLetters();
 
     return (
-        <div className="min-h-screen bg-bg-cream p-4 sm:p-8 font-sans">
+        <div className="min-h-screen bg-bg-cream p-4 sm:p-8 pt-24 font-sans">
             <div className="max-w-5xl mx-auto flex flex-col gap-8">
                 {/* Header */}
                 <div className="w-full text-center sm:text-left">

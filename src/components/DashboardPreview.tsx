@@ -33,8 +33,8 @@ function AnimatedCounter({ value }: { value: number }) {
 
 export default function DashboardPreview() {
     return (
-        <section id="dashboard" className="py-32 relative z-20 overflow-hidden bg-bg-cream">
-            <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <section id="dashboard" className="py-20 sm:py-32 relative z-20 overflow-hidden bg-bg-cream">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +66,7 @@ export default function DashboardPreview() {
                         <div className="w-4 h-4 rounded-full bg-neo-green neo-border-thin" />
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                         {/* ATS Score Card */}
                         <div className="bg-neo-yellow neo-border neo-shadow-hover p-7 hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200">
                             <h4 className="text-text-black text-xs font-black uppercase tracking-widest mb-8">ATS Match Score</h4>
@@ -143,9 +143,9 @@ export default function DashboardPreview() {
                             </div>
                         </div>
 
-                        <div className="md:col-span-3 bg-neo-green neo-border neo-shadow-hover p-6 hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200 overflow-hidden relative">
+                        <div className="md:col-span-3 bg-neo-green neo-border neo-shadow-hover p-6 hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-200 overflow-x-auto relative">
                             <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-neo-green to-transparent z-10 pointer-events-none" />
-                            <div className="flex items-center gap-6 overflow-hidden">
+                            <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-1">
                                 <span className="text-black text-xs font-black uppercase tracking-widest whitespace-nowrap hidden md:block border-r-4 border-black pr-6">AI Matched Roles</span>
                                 <div className="flex gap-4 min-w-max">
                                     <div className="px-4 py-2 bg-white neo-border flex items-center gap-3 hover:bg-neo-yellow transition-colors duration-200">

@@ -10,8 +10,8 @@ export default function InterviewPrepPage() {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-5">
-                <h1 className="text-6xl font-bold gradient-title">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 gap-3">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-title">
                     Interview Preparation
                 </h1>
             </div>

@@ -28,11 +28,11 @@ export default function HowItWorks() {
     ];
 
     return (
-        <section id="how-it-works" className="py-32 relative overflow-hidden bg-bg-cream neo-border-thin border-l-0 border-r-0">
+        <section id="how-it-works" className="py-20 sm:py-32 relative overflow-hidden bg-bg-cream neo-border-thin border-l-0 border-r-0">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), repeating-linear-gradient(45deg, #000 25%, #f4f4f0 25%, #f4f4f0 75%, #000 75%, #000)', backgroundPosition: '0 0, 10px 10px', backgroundSize: '20px 20px' }} />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10 bg-white p-12 neo-border neo-shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 bg-white p-6 sm:p-12 neo-border neo-shadow-lg">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export default function HowItWorks() {
                     {/* Connecting Solid Black Line */}
                     <div className="hidden md:block absolute top-[44px] left-[10%] right-[10%] h-[4px] bg-black" />
 
-                    <div className="grid md:grid-cols-4 gap-12 text-center relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center relative z-10">
                         {steps.map((step, index) => {
                             const colors = ["bg-neo-pink", "bg-neo-yellow", "bg-neo-blue", "bg-neo-green"];
                             return (

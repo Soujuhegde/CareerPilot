@@ -63,7 +63,7 @@ export default function Recruiters() {
     };
 
     return (
-        <div className="min-h-screen bg-bg-cream p-6 md:p-12 font-sans text-black">
+        <div className="min-h-screen bg-bg-cream p-4 sm:p-6 md:p-12 pt-24 font-sans text-black">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
@@ -71,8 +71,8 @@ export default function Recruiters() {
                         <Link href="/" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-500 hover:text-neo-blue transition-colors mb-4">
                             <ArrowRight className="w-3 h-3 rotate-180" /> Back to Dashboard
                         </Link>
-                        <h1 className="text-5xl font-black uppercase tracking-tighter flex items-center gap-4">
-                            <Briefcase className="w-12 h-12 text-neo-blue" />
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter flex flex-wrap items-center gap-3">
+                            <Briefcase className="w-8 h-8 sm:w-12 sm:h-12 text-neo-blue shrink-0" />
                             Recruiter Tools
                         </h1>
                         <p className="text-slate-600 font-bold mt-2">Manage your pipeline and discover world-class talent.</p>
