@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+
 export default function CTA() {
     return (
         <section className="py-24 relative z-20 px-4 md:px-6 bg-bg-cream pb-32">
