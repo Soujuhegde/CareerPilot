@@ -10,7 +10,7 @@ export async function callGemini(payload: string | any[]): Promise<string> {
     const multipartPayload = Array.isArray(payload) ? payload : [payload];
 
     // Confirmed working models for this environment
-    const models = ["gemini-pro-latest", "gemini-flash-latest"];
+    const models = ["gemini-2.5-flash", "gemini-2.0-flash"];
     let lastError: any = null;
 
     for (const modelName of models) {
