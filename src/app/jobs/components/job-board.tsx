@@ -12,7 +12,8 @@ import {
     Building,
     CheckCircle2,
     ArrowUpRight,
-    Globe
+    Globe,
+    Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { getJobMatches, JobMatchResult } from "@/actions/jobs";
@@ -127,16 +128,14 @@ export default function JobBoard() {
                                     ))}
                                 </div>
                                 <a
-                                    href="#"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        toast.info("Applied successfully! (Demo)");
-                                    }}
+                                    href={`https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(`${job.title} ${job.company}`)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="w-full px-6 py-4 bg-black text-white font-black 
                                     uppercase text-sm flex items-center justify-center 
                                     gap-2 neo-border-thin hover:bg-neo-blue transition-all"
                                 >
-                                    Apply for Role <ArrowUpRight className="w-5 h-5" />
+                                    Apply on LinkedIn <ArrowUpRight className="w-5 h-5" />
                                 </a>
                             </div>
                         </div>
@@ -185,6 +184,21 @@ export default function JobBoard() {
                         </Button>
                     </div>
                 </form>
+
+                {/* Loading Status Text */}
+                <AnimatePresence>
+                    {isSearching && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="mb-8 font-black uppercase tracking-widest text-[10px] text-neo-blue animate-pulse flex items-center justify-center gap-2"
+                        >
+                            <Sparkles className="w-3 h-3" />
+                            AI is analyzing billions of data points to find your perfect fit...
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 <div className="flex flex-wrap justify-center gap-3">
                     <span className="w-full text-xs font-black uppercase text-gray-400 mb-2">Popular Roles:</span>

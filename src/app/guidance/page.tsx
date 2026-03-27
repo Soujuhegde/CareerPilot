@@ -15,69 +15,9 @@ import {
     Sparkles,
     CheckCircle
 } from "lucide-react";
-import { Suspense, useState, useMemo } from "react";
-
-// Roadmap Data for the new Node Structure
-const getRoadmapNodes = (industry: string) => {
-    // Core path nodes
-    return [
-        {
-            id: "internet",
-            label: "Internet",
-            description: "How the internet works",
-            status: "done",
-            branches: [
-                { id: "internet-1", label: "How does the internet work?", status: "done" },
-                { id: "internet-2", label: "What is HTTP?", status: "done" },
-                { id: "internet-3", label: "Browsers and how they work?", status: "done" },
-                { id: "internet-4", label: "DNS and how it works?", status: "done" }
-            ]
-        },
-        { id: "basic-html", label: "HTML", status: "done", branches: [] },
-        { id: "basic-css", label: "CSS", status: "done", branches: [] },
-        { id: "basic-js", label: "JavaScript", status: "current", branches: [] },
-        {
-            id: "vcs",
-            label: "Version Control Systems",
-            status: "locked",
-            branches: [
-                { id: "vcs-1", label: "Git", status: "locked" },
-                { id: "vcs-2", label: "GitHub", status: "locked" },
-                { id: "vcs-3", label: "GitLab", status: "locked" }
-            ]
-        },
-        {
-            id: "package-managers",
-            label: "Package Managers",
-            status: "locked",
-            branches: [
-                { id: "pm-1", label: "npm", status: "locked" },
-                { id: "pm-2", label: "yarn", status: "locked" },
-                { id: "pm-3", label: "pnpm", status: "locked" }
-            ]
-        },
-        {
-            id: "frameworks",
-            label: "Pick a Framework",
-            status: "locked",
-            branches: [
-                { id: "fw-1", label: "React", status: "locked" },
-                { id: "fw-2", label: "Vue.js", status: "locked" },
-                { id: "fw-3", label: "Angular", status: "locked" }
-            ]
-        },
-        {
-            id: "ai-coding",
-            label: "AI Assisted Coding",
-            status: "locked",
-            branches: [
-                { id: "ai-1", label: "Claude Code", status: "locked" },
-                { id: "ai-2", label: "GitHub Copilot", status: "locked" },
-                { id: "ai-3", label: "Antigravity", status: "locked" }
-            ]
-        }
-    ];
-};
+import { Suspense, useState, useEffect, useMemo } from "react";
+import { generateRoadmap, RoadmapNode } from "@/actions/roadmap";
+import useFetch from "@/hooks/use-fetch";
 
 function RoadmapContent() {
     const searchParams = useSearchParams();
@@ -95,7 +35,28 @@ function RoadmapContent() {
     const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([]);
     const [isTyping, setIsTyping] = useState(false);
 
-    const initialNodes = useMemo(() => getRoadmapNodes(industry), [industry]);
+    const { data: roadmapData, loading: isRoadmapLoading, error: roadmapError, fn: fetchRoadmap } = useFetch(generateRoadmap);
+
+    useEffect(() => {
+        fetchRoadmap(industry, experience);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [industry, experience]);
+
+    const initialNodes: RoadmapNode[] = roadmapData || [];
+    
+    // Auto-complete any node marked as "done" from the AI response
+    useEffect(() => {
+        if (roadmapData) {
+            const defaultDone = roadmapData
+                .filter(node => node.status === "done")
+                .map(node => node.id);
+            const defaultBranchDone = roadmapData
+                .flatMap(node => node.branches)
+                .filter(branch => branch.status === "done")
+                .map(branch => branch.id);
+            setCompletedIds([...defaultDone, ...defaultBranchDone]);
+        }
+    }, [roadmapData]);
 
     const handleStartSession = () => {
         setIsTyping(true);
@@ -270,9 +231,24 @@ function RoadmapContent() {
                 {/* Main Content Area */}
                 <div className="flex-1">
                     {activeTab === "roadmap" && (
-                        <div className="flex flex-col items-center relative">
-                            {/* Background Line */}
-                            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2 hidden md:block" />
+                        <div className="flex flex-col items-center relative min-h-[400px]">
+                            {isRoadmapLoading ? (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-4 animate-pulse">
+                                        <LayoutPanelTop className="w-12 h-12 text-neo-blue" />
+                                        <span className="font-black uppercase tracking-widest text-sm text-slate-500">Generating your custom AI Roadmap...</span>
+                                    </div>
+                                </div>
+                            ) : roadmapError ? (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="text-red-500 font-bold border-2 border-red-500 bg-red-50 p-6 rounded-xl">
+                                        Failed to generate AI roadmap. Please try reloading the page.
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    {/* Background Line */}
+                                    <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2 hidden md:block" />
 
                             {initialNodes.map((node, index) => {
                                 const isDone = completedIds.includes(node.id);
@@ -325,6 +301,8 @@ function RoadmapContent() {
                                     </div>
                                 );
                             })}
+                                </>
+                            )}
                         </div>
                     )}
 

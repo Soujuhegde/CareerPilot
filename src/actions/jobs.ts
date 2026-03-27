@@ -24,7 +24,7 @@ export async function getJobMatches(query: string): Promise<JobMatchResult> {
         throw new Error("Please enter a valid career title or interest.");
     }
 
-    const prompt = `Act as an AI Job Matching Engine. Based on the user's career interest/title: "${query}", project 5 highly relevant and realistic job opportunities that would exist in the current market.
+    const prompt = `Act as an AI Job Matching Engine. Based on the user's career interest/title: "${query}", project 3 highly relevant and realistic job opportunities that would exist in the current market.
 
 Return a valid JSON object (no markdown) with this exact structure:
 {
@@ -45,7 +45,7 @@ Return a valid JSON object (no markdown) with this exact structure:
 }
 
 Rules:
-- matches: exactly 5 jobs
+- matches: exactly 3 jobs
 - matchScore: a realistic percentage matching the user's query (80-99)
 - Return ONLY the raw JSON object. No other text.`;
 
